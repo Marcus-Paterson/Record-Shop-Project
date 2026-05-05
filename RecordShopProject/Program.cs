@@ -1,4 +1,9 @@
 
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace RecordShopProject
 {
     public class Program
@@ -7,7 +12,20 @@ namespace RecordShopProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddDbContext<RecordShopDBContext>(options => 
+            {
+                if (builder.Environment.IsDevelopment())
+                {
+                    string connectionString = "Data Source=InMemorySample;Mode=Memory;Cache=Shared";
+                    var connection = new SqliteConnection(connectionString);
+                    connection.Open();
+                    options.UseSqlite(connection);
+                } else
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                }
+            }
+                );
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
