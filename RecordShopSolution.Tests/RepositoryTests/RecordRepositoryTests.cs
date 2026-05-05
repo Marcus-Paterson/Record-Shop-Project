@@ -17,19 +17,19 @@ namespace RecordShopProject.Tests
         public void GetAllRecords_ShouldReturnListOfRecords()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<RecordShopDBContext>()
+            var TestDb = new DbContextOptionsBuilder<RecordShopDBContext>()
                 .UseInMemoryDatabase("TestDb")
                 .Options;
 
-            using var context = new RecordShopDBContext(options);
+            using var listOfRecords = new RecordShopDBContext(TestDb);
 
-            context.Records.AddRange(
+            listOfRecords.Records.AddRange(
                 new Record { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 },
                 new Record { RecordId = 2, Title = "Test Album 2", Artist = "Test Artist 2", Genre = "Pop", Year = 2005, Price = 15, Stock = 3 }
             );
-            context.SaveChanges();
+            listOfRecords.SaveChanges();
 
-            var repository = new RecordsRepository(context);
+            var repository = new RecordsRepository(listOfRecords);
 
             // Act
             var records = repository.GetAllRecords();
