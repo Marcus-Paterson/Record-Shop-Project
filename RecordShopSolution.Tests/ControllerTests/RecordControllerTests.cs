@@ -46,5 +46,24 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.IsNotNull(returnedRecords);
             Assert.AreEqual(2, returnedRecords.Count);
         }
+
+        [Test]
+        public void GetRecordById_ShouldReturnCorrectRecord()
+        {
+            // Arrange
+            var testRecord = new Record 
+            { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
+           
+            _recordServiceMock.Setup(repo => repo.GetRecordById(1)).Returns(testRecord);
+           
+            // Act
+            var result = _recordController.GetRecordById(1) as OkObjectResult;
+           
+            // Assert
+            Assert.IsNotNull(result);
+            var returnedRecord = result.Value as Record;
+            Assert.IsNotNull(returnedRecord);
+            Assert.AreEqual(testRecord.RecordId, returnedRecord.RecordId);
+        }
     }
 }

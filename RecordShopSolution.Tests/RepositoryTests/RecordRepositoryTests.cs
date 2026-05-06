@@ -21,7 +21,7 @@ namespace RecordShopProject.Tests
                 .UseInMemoryDatabase("TestDb")
                 .Options;
 
-            using var listOfRecords = new RecordShopDBContext(TestDb);
+            var listOfRecords = new RecordShopDBContext(TestDb);
 
             listOfRecords.Records.AddRange(
                 new Record { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 },
@@ -36,6 +36,33 @@ namespace RecordShopProject.Tests
 
             // Assert
             Assert.AreEqual(2, records.Count);
+        }
+
+        [Test]
+        public void GetRecordById_ShouldReturnCorrectRecord()
+        {
+            //Arrange
+            var TestDb = new DbContextOptionsBuilder<RecordShopDBContext>()
+                .UseInMemoryDatabase("Test2Db")
+                .Options;
+
+            var listOfRecords = new RecordShopDBContext(TestDb);
+
+            listOfRecords.Records.AddRange(
+                new Record { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 },
+                new Record { RecordId = 2, Title = "Test Album 2", Artist = "Test Artist 2", Genre = "Pop", Year = 2005, Price = 15, Stock = 3 }
+            );
+            listOfRecords.SaveChanges();
+
+            var repository = new RecordsRepository(listOfRecords);
+            
+            // Act
+            var record = repository.GetRecordById(1);
+            
+            // Assert
+            Assert.IsNotNull(record);
+            Assert.AreEqual(1, record.RecordId);
+           
         }
     }
 }
