@@ -6,6 +6,7 @@ namespace RecordShopProject.Repository
     public interface IRecordsRepository
     { 
         List<Record> GetAllRecords();
+        Record GetRecordById(int id);
     }
 
     public class RecordsRepository : IRecordsRepository
@@ -18,6 +19,11 @@ namespace RecordShopProject.Repository
         public List<Record> GetAllRecords()
         {
             return _context.Records.ToList();
+        }
+
+        public Record GetRecordById(int id) 
+        {
+            return _context.Records.FirstOrDefault(repo => repo.RecordId == id);
         }
 
 

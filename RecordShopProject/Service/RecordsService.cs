@@ -6,6 +6,7 @@ namespace RecordShopProject.Service
     public interface IRecordsService
     {
         List<Record> GetAllRecords();
+        Record GetRecordById(int id);
     }
     public class RecordsService : IRecordsService
     {
@@ -17,6 +18,12 @@ namespace RecordShopProject.Service
         public List<Record> GetAllRecords()
         {
             return _recordRepository.GetAllRecords();
+        }
+
+        public Record GetRecordById(int id)
+        {
+            return _recordRepository.GetRecordById(id);
+       
         }
 
 

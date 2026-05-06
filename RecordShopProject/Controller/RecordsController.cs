@@ -14,10 +14,21 @@ namespace RecordShopProject.Controller
             _recordService = recordService;
         }
         [HttpGet]
-        public ActionResult GetAllRecords()
+        public IActionResult GetAllRecords()
         {
             var records = _recordService.GetAllRecords();
             return Ok(records);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetRecordById(int id)
+        {
+            var recordId = _recordService.GetRecordById(id);
+            if (recordId == null)
+            {
+                return NotFound();
+            }
+            return Ok(recordId);
         }
     }
 }

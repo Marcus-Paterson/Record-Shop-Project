@@ -1,6 +1,8 @@
 
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using RecordShopProject.Repository;
+using RecordShopProject.Service;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -28,6 +30,8 @@ namespace RecordShopProject
                 );
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IRecordsRepository, RecordsRepository>();
+            builder.Services.AddScoped<IRecordsService, RecordsService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
