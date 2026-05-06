@@ -30,5 +30,16 @@ namespace RecordShopProject.Controller
             }
             return Ok(recordId);
         }
-    }
+
+        [HttpPost]
+        public IActionResult AddRecord(Record newRecord)
+        {
+            if (newRecord == null)
+            {
+                return BadRequest("Record cannot be null");
+            }
+
+            var addedRecord = _recordService.AddRecord(newRecord);
+            return CreatedAtAction(nameof(GetRecordById), new { id = addedRecord.RecordId }, addedRecord);
+        }
 }

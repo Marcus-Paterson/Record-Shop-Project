@@ -7,6 +7,7 @@ namespace RecordShopProject.Repository
     { 
         List<Record> GetAllRecords();
         Record GetRecordById(int id);
+        Record AddRecord(Record newRecord);
     }
 
     public class RecordsRepository : IRecordsRepository
@@ -26,6 +27,11 @@ namespace RecordShopProject.Repository
             return _context.Records.FirstOrDefault(repo => repo.RecordId == id);
         }
 
-
+        public Record AddRecord(Record newRecord)
+        {
+            _context.Records.Add(newRecord);
+            _context.SaveChanges();
+            return newRecord;
+        }
     }
 }
