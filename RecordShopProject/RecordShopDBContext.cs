@@ -13,15 +13,5 @@ namespace RecordShopProject
         public RecordShopDBContext(DbContextOptions<RecordShopDBContext> options) : base(options)
         {
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Record>()
-                .HasKey(r => r.RecordId);
-
-            modelBuilder.Entity<Record>()
-                .Property(r => r.RecordId)
-                .ValueGeneratedOnAdd();
-        }
     }
 }

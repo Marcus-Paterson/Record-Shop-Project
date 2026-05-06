@@ -1,7 +1,10 @@
-﻿namespace RecordShopProject.DataModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecordShopProject.DataModels
 {
     public class Record
     {
+       
         public int RecordId { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }

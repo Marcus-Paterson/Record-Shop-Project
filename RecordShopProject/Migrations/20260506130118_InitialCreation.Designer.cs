@@ -11,7 +11,7 @@ using RecordShopProject;
 namespace RecordShopProject.Migrations
 {
     [DbContext(typeof(RecordShopDBContext))]
-    [Migration("20260505125650_InitialCreation")]
+    [Migration("20260506130118_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
