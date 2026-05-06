@@ -42,4 +42,5 @@ namespace RecordShopProject.Controller
             var addedRecord = _recordService.AddRecord(newRecord);
             return CreatedAtAction(nameof(GetRecordById), new { id = addedRecord.RecordId }, addedRecord);
         }
+    }
 }

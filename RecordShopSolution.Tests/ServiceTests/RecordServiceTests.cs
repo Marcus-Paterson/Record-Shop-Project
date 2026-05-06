@@ -48,5 +48,17 @@ namespace RecordShopProject.Tests.ServiceTests
             // Assert
             Assert.That(result, Is.EqualTo(testRecord));
         }
+
+        [Test]
+        public void AddRecord_ReturnsAddedRecord()
+        {
+            // Arrange
+            var newRecord = new Record { RecordId = 3, Title = "Test Album 3", Artist = "Test Artist 3", Genre = "Jazz", Year = 2010, Price = 20, Stock = 2 };
+            _recordRepositoryMock.Setup(repo => repo.AddRecord(newRecord)).Returns(newRecord);
+            // Act
+            var result = _recordService.AddRecord(newRecord);
+            // Assert
+            Assert.That(result, Is.EqualTo(newRecord));
+        }
     }
 }
