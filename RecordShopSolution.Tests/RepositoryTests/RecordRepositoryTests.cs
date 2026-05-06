@@ -131,5 +131,45 @@ namespace RecordShopProject.Tests
             Assert.IsNotNull(recordFromDb);
             Assert.AreEqual("Test Album 1", recordFromDb.Title);
         }
+
+        [Test]
+        public void EditRecord_ShouldUpdateExistingRecord()
+        {
+            // Arrange
+            var TestDb = new DbContextOptionsBuilder<RecordShopDBContext>()
+                .UseInMemoryDatabase("Test4Db")
+                .Options;
+            var context = new RecordShopDBContext(TestDb);
+            var repository = new RecordsRepository(context);
+            var existingRecord = new Record
+            {
+                Title = "Test Album 1",
+                Artist = "Test Artist 1",
+                Genre = "Rock",
+                Year = 2000,
+                Price = 10,
+                Stock = 5
+            };
+            context.Records.Add(existingRecord);
+            context.SaveChanges();
+            var updatedRecord = new Record
+            {
+                Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Pop",
+                Year = 2020,
+                Price = 25,
+                Stock = 10
+            };
+            // Act
+            var result = repository.EditRecord(existingRecord.RecordId, updatedRecord);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(existingRecord.RecordId, result.RecordId);
+            Assert.AreEqual("Updated Album", result.Title);
+
+            var recordFromDb = context.Records.Find(existingRecord.RecordId);
+            Assert.AreEqual("Updated Album", recordFromDb.Title);
+        }
     }
 }

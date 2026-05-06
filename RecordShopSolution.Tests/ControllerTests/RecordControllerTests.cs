@@ -91,5 +91,55 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.IsNotNull(createdRecord);
             Assert.AreEqual(3, createdRecord.RecordId);
         }
+
+        [Test]
+        public void AddRecord_ShouldReturnBadRequestForNullRecord()
+        {
+            // Act
+            var result = _recordController.AddRecord(null);
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        }
+
+        [Test]
+        public void EditRecord_ShouldReturnEditedRecord()
+        {
+            // Arrange
+            var id = 1;
+
+            var updatedRecord = new Record
+            {   Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Rock",
+                Year = 2000,
+                Price = 10,
+                Stock = 5
+            };
+
+            var returnedRecord = new Record
+            {   RecordId = id,
+                Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Rock",
+                Year = 2000,
+                Price = 10,
+                Stock = 5
+            };
+
+            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).Returns(returnedRecord);
+
+            // Act
+            var result = _recordController.EditRecord(id, updatedRecord) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+
+            var editedRecord = result.Value as Record;
+            Assert.IsNotNull(editedRecord);
+
+            Assert.AreEqual("Updated Album", editedRecord.Title);
+            Assert.AreEqual(id, editedRecord.RecordId);
+        }
     }
+    
 }

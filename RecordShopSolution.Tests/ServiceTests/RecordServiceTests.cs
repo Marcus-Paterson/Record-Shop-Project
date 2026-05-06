@@ -1,6 +1,4 @@
 ﻿using Moq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +57,52 @@ namespace RecordShopProject.Tests.ServiceTests
             var result = _recordService.AddRecord(newRecord);
             // Assert
             Assert.That(result, Is.EqualTo(newRecord));
+        }
+
+        [Test]
+        public void EditRecord_ReturnsEditedRecord()
+        {
+            // Arrange
+            var id = 5;
+
+            var updatedRecord = new Record
+            {
+                
+                Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Rock",
+                Year = 2024,
+                Price = 15,
+                Stock = 12
+            };
+
+            var returnedRecord = new Record
+            {
+                RecordId = 5,
+                Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Rock",
+                Year = 2024,
+                Price = 15,
+                Stock = 12
+            };
+
+            _recordRepositoryMock
+                .Setup(repo => repo.EditRecord(id, updatedRecord))
+                .Returns(returnedRecord);
+
+            // Act
+            var result = _recordService.EditRecord(id, updatedRecord);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(returnedRecord.RecordId, result.RecordId);
+            Assert.AreEqual(returnedRecord.Title, result.Title);
+
+            _recordRepositoryMock.Verify(
+                repo => repo.EditRecord(id, updatedRecord),
+                Times.Once
+            );
         }
     }
 }
