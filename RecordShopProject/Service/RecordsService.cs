@@ -9,7 +9,7 @@ namespace RecordShopProject.Service
         Record GetRecordById(int id);
         Record AddRecord(Record newRecord);
         Record EditRecord(int id, Record updatedRecord);
-        Record DeleteRecord(int id);
+        bool DeleteRecord(int id);
     }
     public class RecordsService : IRecordsService
     {
@@ -38,10 +38,11 @@ namespace RecordShopProject.Service
             return _recordRepository.EditRecord(id, updatedRecord);
         }
 
-        public Record DeleteRecord(int id)
+        public bool DeleteRecord(int id)
         {
-                return _recordRepository.DeleteRecord(id);
+            return _recordRepository.DeleteRecord(id);
         }
+
 
 
     }

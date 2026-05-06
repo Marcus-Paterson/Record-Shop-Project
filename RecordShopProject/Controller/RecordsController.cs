@@ -50,12 +50,24 @@ namespace RecordShopProject.Controller
                 return BadRequest("Record cannot be null");
 
             var editedRecord = _recordService.EditRecord(id, updatedRecord);
-            
+
             if (editedRecord == null)
             {
                 return NotFound();
             }
             return Ok(editedRecord);
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRecord(int id)
+        {
+            var deletedRecord = _recordService.DeleteRecord(id);
+            if (!deletedRecord)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

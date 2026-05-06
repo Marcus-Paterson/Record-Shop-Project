@@ -9,6 +9,7 @@ namespace RecordShopProject.Repository
         Record GetRecordById(int id);
         Record AddRecord(Record newRecord);
         Record EditRecord(int id,Record updatedRecord);
+        bool DeleteRecord(int id);
     }
 
     public class RecordsRepository : IRecordsRepository
@@ -47,6 +48,15 @@ namespace RecordShopProject.Repository
             record.Stock = updatedRecord.Stock;
             _context.SaveChanges();
             return record;
+        }
+
+        public bool DeleteRecord(int id)
+        {
+            var record = _context.Records.FirstOrDefault(repo => repo.RecordId == id);
+            if (record == null) return false;
+            _context.Records.Remove(record);
+            _context.SaveChanges();
+            return true;
         }
     }
 }
