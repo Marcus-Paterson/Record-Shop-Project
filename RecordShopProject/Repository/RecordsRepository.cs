@@ -8,6 +8,7 @@ namespace RecordShopProject.Repository
         List<Record> GetAllRecords();
         Record GetRecordById(int id);
         Record AddRecord(Record newRecord);
+        Record EditRecord(int id,Record updatedRecord);
     }
 
     public class RecordsRepository : IRecordsRepository
@@ -32,6 +33,20 @@ namespace RecordShopProject.Repository
             _context.Records.Add(newRecord);
             _context.SaveChanges();
             return newRecord;
+        }
+
+        public Record EditRecord(int id, Record updatedRecord) 
+        {
+            var record = _context.Records.FirstOrDefault(repo => repo.RecordId == id);
+            if (record == null) return null;
+            record.Title = updatedRecord.Title;
+            record.Artist = updatedRecord.Artist;
+            record.Genre = updatedRecord.Genre;
+            record.Year = updatedRecord.Year;
+            record.Price = updatedRecord.Price;
+            record.Stock = updatedRecord.Stock;
+            _context.SaveChanges();
+            return record;
         }
     }
 }

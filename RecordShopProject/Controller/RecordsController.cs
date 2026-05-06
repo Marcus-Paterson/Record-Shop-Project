@@ -42,5 +42,20 @@ namespace RecordShopProject.Controller
             var addedRecord = _recordService.AddRecord(newRecord);
             return CreatedAtAction(nameof(GetRecordById), new { id = addedRecord.RecordId }, addedRecord);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult EditRecord(int id, [FromBody] Record updatedRecord)
+        {
+            if (updatedRecord == null)
+                return BadRequest("Record cannot be null");
+
+            var editedRecord = _recordService.EditRecord(id, updatedRecord);
+            
+            if (editedRecord == null)
+            {
+                return NotFound();
+            }
+            return Ok(editedRecord);
+        }
     }
 }

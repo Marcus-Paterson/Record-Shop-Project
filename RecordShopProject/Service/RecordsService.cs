@@ -8,6 +8,7 @@ namespace RecordShopProject.Service
         List<Record> GetAllRecords();
         Record GetRecordById(int id);
         Record AddRecord(Record newRecord);
+        Record EditRecord(int id, Record updatedRecord);
     }
     public class RecordsService : IRecordsService
     {
@@ -27,8 +28,13 @@ namespace RecordShopProject.Service
         }
 
         public Record AddRecord(Record newRecord)
-        { 
+        {
             return _recordRepository.AddRecord(newRecord);
+        }
+
+        public Record EditRecord(int id, Record updatedRecord)
+        {
+            return _recordRepository.EditRecord(id, updatedRecord);
         }
 
     }
