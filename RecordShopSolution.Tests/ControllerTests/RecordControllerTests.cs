@@ -140,6 +140,51 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.AreEqual("Updated Album", editedRecord.Title);
             Assert.AreEqual(id, editedRecord.RecordId);
         }
+
+        [Test]
+        public void EditRecord_ShouldReturnNotFoundForInvalidId()
+        {
+            // Arrange
+            var id = 999;
+            var updatedRecord = new Record
+            {
+                Title = "Updated Album",
+                Artist = "Updated Artist",
+                Genre = "Rock",
+                Year = 2000,
+                Price = 10,
+                Stock = 5
+            };
+            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).Returns((Record)null);
+            // Act
+            var result = _recordController.EditRecord(id, updatedRecord);
+            // Assert
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+         [Test]
+         public void DeleteRecord_ShouldReturnOkForSuccessfulDeletion()
+         {
+             // Arrange
+             var id = 1;
+             _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(true);
+             // Act
+             var result = _recordController.DeleteRecord(id) as NoContentResult;
+             // Assert
+             Assert.IsNotNull(result);
+        }
+        [Test]
+        public void DeleteRecord_ShouldReturnNotFound_WhenRecordDoesNotExist()
+        {
+            // Arrange
+            var id = 1;
+            _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(false);
+
+            // Act
+            var result = _recordController.DeleteRecord(id) as NotFoundResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
     }
     
 }

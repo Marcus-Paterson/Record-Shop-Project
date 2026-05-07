@@ -104,5 +104,18 @@ namespace RecordShopProject.Tests.ServiceTests
                 Times.Once
             );
         }
+
+        [Test]
+        public void DeleteRecord_ReturnsTrueWhenDeleted()
+        {
+            // Arrange
+            var id = 1;
+            _recordRepositoryMock.Setup(repo => repo.DeleteRecord(id)).Returns(true);
+            // Act
+            var result = _recordService.DeleteRecord(id);
+            // Assert
+            Assert.IsTrue(result);
+        }
+    
     }
 }

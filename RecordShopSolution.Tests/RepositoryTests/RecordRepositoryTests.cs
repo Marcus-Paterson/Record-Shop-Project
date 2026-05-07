@@ -23,25 +23,25 @@ namespace RecordShopProject.Tests
             var listOfRecords = new RecordShopDBContext(TestDb);
 
             listOfRecords.Records.AddRange(
-                new Record 
-                { 
-                    RecordId = 1, 
-                    Title = "Test Album 1", 
-                    Artist = "Test Artist 1", 
-                    Genre = "Rock", 
-                    Year = 2000, 
-                    Price = 10, 
-                    Stock = 5 
+                new Record
+                {
+                    RecordId = 1,
+                    Title = "Test Album 1",
+                    Artist = "Test Artist 1",
+                    Genre = "Rock",
+                    Year = 2000,
+                    Price = 10,
+                    Stock = 5
                 },
-                new Record 
-                { 
-                    RecordId = 2, 
-                    Title = "Test Album 2", 
-                    Artist = "Test Artist 2", 
-                    Genre = "Pop", 
-                    Year = 2005, 
-                    Price = 15, 
-                    Stock = 3 
+                new Record
+                {
+                    RecordId = 2,
+                    Title = "Test Album 2",
+                    Artist = "Test Artist 2",
+                    Genre = "Pop",
+                    Year = 2005,
+                    Price = 15,
+                    Stock = 3
                 }
             );
             listOfRecords.SaveChanges();
@@ -66,24 +66,25 @@ namespace RecordShopProject.Tests
             var listOfRecords = new RecordShopDBContext(TestDb);
 
             listOfRecords.Records.AddRange(
-                new Record 
-                {   
-                    RecordId = 1, 
-                    Title = "Test Album 1", 
-                    Artist = "Test Artist 1", 
-                    Genre = "Rock", 
-                    Year = 2000, 
-                    Price = 10, 
-                    Stock = 5 
+                new Record
+                {
+                    RecordId = 1,
+                    Title = "Test Album 1",
+                    Artist = "Test Artist 1",
+                    Genre = "Rock",
+                    Year = 2000,
+                    Price = 10,
+                    Stock = 5
                 },
-                new Record 
-                {   
-                    RecordId = 2, 
-                    Title = "Test Album 2", 
-                    Artist = "Test Artist 2", 
-                    Genre = "Pop", Year = 2005, 
-                    Price = 15, 
-                    Stock = 3 
+                new Record
+                {
+                    RecordId = 2,
+                    Title = "Test Album 2",
+                    Artist = "Test Artist 2",
+                    Genre = "Pop",
+                    Year = 2005,
+                    Price = 15,
+                    Stock = 3
                 }
             );
             listOfRecords.SaveChanges();
@@ -170,6 +171,34 @@ namespace RecordShopProject.Tests
 
             var recordFromDb = context.Records.Find(existingRecord.RecordId);
             Assert.AreEqual("Updated Album", recordFromDb.Title);
+        }
+
+        [Test]
+        public void DeleteRecord_ShouldRemoveRecordFromDatabase()
+        {
+            // Arrange
+            var TestDb = new DbContextOptionsBuilder<RecordShopDBContext>()
+                .UseInMemoryDatabase("Test5Db")
+                .Options;
+            var context = new RecordShopDBContext(TestDb);
+            var repository = new RecordsRepository(context);
+            var recordToDelete = new Record
+            {
+                Title = "Test Album 1",
+                Artist = "Test Artist 1",
+                Genre = "Rock",
+                Year = 2000,
+                Price = 10,
+                Stock = 5
+            };
+            context.Records.Add(recordToDelete);
+            context.SaveChanges();
+            // Act
+            var result = repository.DeleteRecord(recordToDelete.RecordId);
+            // Assert
+            Assert.IsTrue(result);
+            var recordFromDb = context.Records.Find(recordToDelete.RecordId);
+            Assert.IsNull(recordFromDb);
         }
     }
 }
