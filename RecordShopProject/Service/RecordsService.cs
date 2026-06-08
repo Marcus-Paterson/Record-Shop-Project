@@ -25,6 +25,10 @@ namespace RecordShopProject.Service
 
         public async Task<Record> GetRecordById(int id)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid record ID");
+            }
             return await _recordRepository.GetRecordById(id);
         }
 

@@ -23,7 +23,13 @@ namespace RecordShopProject.Controller
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRecordById(int id)
         {
+            if(id <= 0)
+            {
+                return BadRequest("Invalid record ID");
+            }
+
             var recordId = _recordService.GetRecordById(id);
+
             if (recordId == null)
             {
                 return NotFound();
