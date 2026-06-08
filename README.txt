@@ -104,9 +104,7 @@ Production (SQL Server)
 Pagination + filtering
 > Sorting (by year, price, artist)
 > Search by title/artist
+> Record artwork/image support
+> Seeding sample data
 
-Authentication layer
 
-Record artwork/image support
-
-Seeding sample data
