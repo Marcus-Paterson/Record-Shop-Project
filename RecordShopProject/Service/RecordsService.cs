@@ -5,11 +5,11 @@ namespace RecordShopProject.Service
 {
     public interface IRecordsService
     {
-        List<Record> GetAllRecords();
-        Record GetRecordById(int id);
-        Record AddRecord(Record newRecord);
-        Record EditRecord(int id, Record updatedRecord);
-        bool DeleteRecord(int id);
+        Task<List<Record>> GetAllRecords();
+        Task<Record> GetRecordById(int id);
+        Task<Record> AddRecord(Record newRecord);
+        Task<Record> EditRecord(int id, Record updatedRecord);
+        Task<bool> DeleteRecord(int id);
     }
     public class RecordsService : IRecordsService
     {
@@ -18,32 +18,29 @@ namespace RecordShopProject.Service
         {
             _recordRepository = repository;
         }
-        public List<Record> GetAllRecords()
+        public async Task<List<Record>> GetAllRecords()
         {
-            return _recordRepository.GetAllRecords();
+            return await _recordRepository.GetAllRecords();
         }
 
-        public Record GetRecordById(int id)
+        public async Task<Record> GetRecordById(int id)
         {
-            return _recordRepository.GetRecordById(id);
+            return await _recordRepository.GetRecordById(id);
         }
 
-        public Record AddRecord(Record newRecord)
+        public async Task<Record> AddRecord(Record newRecord)
         {
-            return _recordRepository.AddRecord(newRecord);
+            return await _recordRepository.AddRecord(newRecord);
         }
 
-        public Record EditRecord(int id, Record updatedRecord)
+        public async Task<Record> EditRecord(int id, Record updatedRecord)
         {
-            return _recordRepository.EditRecord(id, updatedRecord);
+            return await _recordRepository.EditRecord(id, updatedRecord);
         }
 
-        public bool DeleteRecord(int id)
+        public async Task<bool> DeleteRecord(int id)
         {
-            return _recordRepository.DeleteRecord(id);
+            return await _recordRepository.DeleteRecord(id);
         }
-
-
-
     }
 }

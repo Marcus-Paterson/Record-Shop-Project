@@ -14,14 +14,14 @@ namespace RecordShopProject.Controller
             _recordService = recordService;
         }
         [HttpGet]
-        public IActionResult GetAllRecords()
+        public async Task<IActionResult> GetAllRecords()
         {
-            var records = _recordService.GetAllRecords();
+            var records = await _recordService.GetAllRecords();
             return Ok(records);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRecordById(int id)
+        public async Task<IActionResult> GetRecordById(int id)
         {
             var recordId = _recordService.GetRecordById(id);
             if (recordId == null)
@@ -32,24 +32,25 @@ namespace RecordShopProject.Controller
         }
 
         [HttpPost]
-        public IActionResult AddRecord(Record newRecord)
+        public async Task<IActionResult> AddRecord(Record newRecord)
         {
             if (newRecord == null)
             {
                 return BadRequest("Record cannot be null");
             }
 
-            var addedRecord = _recordService.AddRecord(newRecord);
+            var addedRecord = await _recordService.AddRecord(newRecord);
+
             return CreatedAtAction(nameof(GetRecordById), new { id = addedRecord.RecordId }, addedRecord);
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditRecord(int id, [FromBody] Record updatedRecord)
+        public async Task<IActionResult> EditRecord(int id, [FromBody] Record updatedRecord)
         {
             if (updatedRecord == null)
                 return BadRequest("Record cannot be null");
 
-            var editedRecord = _recordService.EditRecord(id, updatedRecord);
+            var editedRecord = await _recordService.EditRecord(id, updatedRecord);
 
             if (editedRecord == null)
             {
@@ -60,9 +61,9 @@ namespace RecordShopProject.Controller
 
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRecord(int id)
+        public async Task<IActionResult> DeleteRecord(int id)
         {
-            var deletedRecord = _recordService.DeleteRecord(id);
+            var deletedRecord = await _recordService.DeleteRecord(id);
             if (!deletedRecord)
             {
                 return NotFound();

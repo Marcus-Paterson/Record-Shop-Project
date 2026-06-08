@@ -19,7 +19,7 @@ namespace RecordShopProject
             builder.Services.AddControllers();
             builder.Services.AddScoped<IRecordsRepository, RecordsRepository>();
             builder.Services.AddScoped<IRecordsService, RecordsService>();
-            builder.Services.AddDbContext<RecordShopDBContext>(options => 
+            builder.Services.AddDbContext<RecordShopDBContext>(options =>
             {
                 if (builder.Environment.IsDevelopment())
                 {
@@ -27,8 +27,9 @@ namespace RecordShopProject
                     var connection = new SqliteConnection(connectionString);
                     connection.Open();
                     options.UseSqlite(connection);
-                    
-                } else
+
+                }
+                else
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 }
@@ -50,8 +51,8 @@ namespace RecordShopProject
             // Configure the HTTP request pipeline.
             /*if (app.Environment.IsDevelopment())
             {*/
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
             //}
 
             app.UseHttpsRedirection();

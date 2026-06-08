@@ -44,7 +44,7 @@ namespace RecordShopProject.Tests.ControllerTests
             var returnedRecords = result.Value as List<Record>;
 
             Assert.IsNotNull(returnedRecords);
-            Assert.AreEqual(2, returnedRecords.Count);
+            Assert.That(returnedRecords.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.IsNotNull(result);
             var returnedRecord = result.Value as Record;
             Assert.IsNotNull(returnedRecord);
-            Assert.AreEqual(testRecord.RecordId, returnedRecord.RecordId);
+            Assert.That(returnedRecord.RecordId, Is.EqualTo(testRecord.RecordId));
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.IsNotNull(result);
             var createdRecord = result.Value as Record;
             Assert.IsNotNull(createdRecord);
-            Assert.AreEqual(3, createdRecord.RecordId);
+            Assert.That(createdRecord.RecordId, Is.EqualTo(3));
         }
 
         [Test]
@@ -108,7 +108,8 @@ namespace RecordShopProject.Tests.ControllerTests
             var id = 1;
 
             var updatedRecord = new Record
-            {   Title = "Updated Album",
+            {
+                Title = "Updated Album",
                 Artist = "Updated Artist",
                 Genre = "Rock",
                 Year = 2000,
@@ -117,7 +118,8 @@ namespace RecordShopProject.Tests.ControllerTests
             };
 
             var returnedRecord = new Record
-            {   RecordId = id,
+            {
+                RecordId = id,
                 Title = "Updated Album",
                 Artist = "Updated Artist",
                 Genre = "Rock",
@@ -137,8 +139,8 @@ namespace RecordShopProject.Tests.ControllerTests
             var editedRecord = result.Value as Record;
             Assert.IsNotNull(editedRecord);
 
-            Assert.AreEqual("Updated Album", editedRecord.Title);
-            Assert.AreEqual(id, editedRecord.RecordId);
+            Assert.That(editedRecord.Title, Is.EqualTo("Updated Album"));
+            Assert.That(editedRecord.RecordId, Is.EqualTo(id));
         }
 
         [Test]
@@ -161,16 +163,16 @@ namespace RecordShopProject.Tests.ControllerTests
             // Assert
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
-         [Test]
-         public void DeleteRecord_ShouldReturnOkForSuccessfulDeletion()
-         {
-             // Arrange
-             var id = 1;
-             _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(true);
-             // Act
-             var result = _recordController.DeleteRecord(id) as NoContentResult;
-             // Assert
-             Assert.IsNotNull(result);
+        [Test]
+        public void DeleteRecord_ShouldReturnOkForSuccessfulDeletion()
+        {
+            // Arrange
+            var id = 1;
+            _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(true);
+            // Act
+            var result = _recordController.DeleteRecord(id) as NoContentResult;
+            // Assert
+            Assert.IsNotNull(result);
         }
         [Test]
         public void DeleteRecord_ShouldReturnNotFound_WhenRecordDoesNotExist()
@@ -186,5 +188,5 @@ namespace RecordShopProject.Tests.ControllerTests
             Assert.IsNotNull(result);
         }
     }
-    
+
 }

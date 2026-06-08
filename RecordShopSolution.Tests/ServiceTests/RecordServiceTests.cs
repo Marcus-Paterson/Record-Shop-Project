@@ -67,7 +67,7 @@ namespace RecordShopProject.Tests.ServiceTests
 
             var updatedRecord = new Record
             {
-                
+
                 Title = "Updated Album",
                 Artist = "Updated Artist",
                 Genre = "Rock",
@@ -96,8 +96,8 @@ namespace RecordShopProject.Tests.ServiceTests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(returnedRecord.RecordId, result.RecordId);
-            Assert.AreEqual(returnedRecord.Title, result.Title);
+            Assert.That(result.RecordId, Is.EqualTo(returnedRecord.RecordId));
+            Assert.That(result.Title, Is.EqualTo(returnedRecord.Title));
 
             _recordRepositoryMock.Verify(
                 repo => repo.EditRecord(id, updatedRecord),
@@ -116,6 +116,6 @@ namespace RecordShopProject.Tests.ServiceTests
             // Assert
             Assert.IsTrue(result);
         }
-    
+
     }
 }

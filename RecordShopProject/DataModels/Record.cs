@@ -4,7 +4,7 @@ namespace RecordShopProject.DataModels
 {
     public class Record
     {
-       
+
         public int RecordId { get; set; }
         [Required]
         public string Title { get; set; }

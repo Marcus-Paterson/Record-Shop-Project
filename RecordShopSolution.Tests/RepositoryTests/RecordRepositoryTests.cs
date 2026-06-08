@@ -52,7 +52,7 @@ namespace RecordShopProject.Tests
             var records = repository.GetAllRecords();
 
             // Assert
-            Assert.AreEqual(2, records.Count);
+            Assert.That(records.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace RecordShopProject.Tests
 
             // Assert
             Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.RecordId);
+            Assert.That(record.RecordId, Is.EqualTo(1));
 
         }
 
@@ -130,7 +130,7 @@ namespace RecordShopProject.Tests
 
             var recordFromDb = context.Records.FirstOrDefault(repo => repo.RecordId == createdRecord.RecordId);
             Assert.IsNotNull(recordFromDb);
-            Assert.AreEqual("Test Album 1", recordFromDb.Title);
+            Assert.That(recordFromDb.Title, Is.EqualTo("Test Album 1"));
         }
 
         [Test]
@@ -166,11 +166,11 @@ namespace RecordShopProject.Tests
             var result = repository.EditRecord(existingRecord.RecordId, updatedRecord);
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(existingRecord.RecordId, result.RecordId);
-            Assert.AreEqual("Updated Album", result.Title);
+            Assert.That(result.RecordId, Is.EqualTo(existingRecord.RecordId));
+            Assert.That(result.Title, Is.EqualTo("Updated Album"));
 
             var recordFromDb = context.Records.Find(existingRecord.RecordId);
-            Assert.AreEqual("Updated Album", recordFromDb.Title);
+            Assert.That(recordFromDb.Title, Is.EqualTo("Updated Album"));
         }
 
         [Test]
