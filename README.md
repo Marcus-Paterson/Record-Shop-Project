@@ -5,18 +5,18 @@ This project was built as a solo backend assignment, focusing on clean architect
 
 ---
 
-# 🚀 Overview
+# Overview
 The Record Shop API allows clients to:
-> Add new records
-> View all records
-> Retrieve a record by ID
-> Update record details
-> Delete records
-> Check API + database health
-> Explore endpoints via Swagger UI
+* Add new records
+* View all records
+* Retrieve a record by ID
+* Update record details
+* Delete records
+* Check API + database health
+* Explore endpoints via Swagger UI
 
 
-# 🧰 Tech Stack
+# Tech Stack
 
   | Area | Technologies |
 | --- | --- |
@@ -28,83 +28,83 @@ The Record Shop API allows clients to:
 | **Tools** | Swagger, HealthChecks, HttpClient |
 
 
-# 🎯 Core Features
+# Core Features
 🎵 Record Management (CRUD)
-> Create new records
-> Read all records or a single record by ID
-> Update existing records
-> Delete records
-> Validation + error handling included
+* Create new records
+* Read all records or a single record by ID
+* Update existing records
+* Delete records
+* Validation + error handling included
 
 🗄️ Database Layer
-> SQLite for development
-> SQL Server for production
-> Automatic schema creation
-> Repository pattern for clean separation
+* SQLite for development
+* SQL Server for production
+* Automatic schema creation
+* Repository pattern for clean separation
 
 📘 API Documentation
-> Full Swagger UI
-> Example requests + responses
-> Error codes documented
+* Full Swagger UI
+* Example requests + responses
+* Error codes documented
 
 ❤️ Health Monitoring
-/health endpoint
+* /health endpoint
 
-🏗️ Architecture
-> The project uses a clean, decoupled structure:
-Controllers
+# 🏗️ Architecture
+The project uses a clean, decoupled structure:
+* Controllers
  - Handle HTTP requests
  - Return DTOs and status codes
  - No business logic
 
-Services
+* Services
  - Contain business rules
  - Validate inputs
  - Coordinate repository operations
 
-Repositories
+* Repositories
  - Abstract EF Core
  - Handle database queries
  - Return domain models
 
-EF Core
+* EF Core
  - Handles migrations
  - Maps models to database tables
 
-🧪 Testing
+# 🧪 Testing
 The backend includes automated test coverage across core layers.
 
-Repository Tests
+* Repository Tests
 - Use in‑memory SQLite
 - Validate CRUD operations
 
-Service Tests
+* Service Tests
 - Mock repositories with Moq
 - Validate business logic
 
-Controller Tests
+* Controller Tests
 - Use mocked services
 - Validate routing + status codes
 
-Testing Tools
+* Testing Tools
 - NUnit — test framework
 - Moq — mocking dependencies
 - Shouldly — readable assertions
 
-🗄️ Database Configuration
-> Development (SQLite)
-> Auto‑created using EnsureCreated()
-> Lightweight and fast
+# Database Configuration
+* Development (SQLite)
+* Auto‑created using EnsureCreated()
+* Lightweight and fast
 
-Production (SQL Server)
-> Uses EF Core migrations
->Supports scaling + deployment
+# Production (SQL Server)
+* Uses EF Core migrations
+* Supports scaling + deployment
 
-🛠️ Planned Enhancements
-Pagination + filtering
-> Sorting (by year, price, artist)
-> Search by title/artist
-> Record artwork/image support
-> Seeding sample data
+# Planned Enhancements
+* Pagination + filtering
+* Sorting (by year, price, artist)
+* Search by title/artist
+* Record artwork/image support
+* Seeding sample data
 
 
