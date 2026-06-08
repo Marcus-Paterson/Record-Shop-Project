@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecordShopProject.DataModels;
-using System.Text.Json;
 
 namespace RecordShopProject.Repository
 {

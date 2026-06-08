@@ -3,13 +3,10 @@ using Moq;
 using RecordShopProject.Controller;
 using RecordShopProject.DataModels;
 using RecordShopProject.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RecordShopProject.Tests.ControllerTests
 {
-    internal class RecordControllerTests
+    public class RecordControllerTests
     {
         private Mock<IRecordsService> _recordServiceMock;
         private RecordsController _recordController;
@@ -23,7 +20,7 @@ namespace RecordShopProject.Tests.ControllerTests
 
 
         [Test]
-        public void GetAllRecords_ShouldReturnAllRecords()
+        public async Task GetAllRecords_ShouldReturnAllRecords()
         {
             // Arrange
             var testRecords = new List<Record>
@@ -32,160 +29,154 @@ namespace RecordShopProject.Tests.ControllerTests
                 new Record { RecordId = 2, Title = "Test Album 2", Artist = "Test Artist 2", Genre = "Pop", Year = 2005, Price = 15, Stock = 3 }
             };
 
-            _recordServiceMock.Setup(repo => repo.GetAllRecords()).Returns(testRecords);
+            _recordServiceMock.Setup(repo => repo.GetAllRecords()).ReturnsAsync(testRecords);
 
 
             // Act
-            var result = _recordController.GetAllRecords() as OkObjectResult;
+            var result = await _recordController.GetAllRecords() as OkObjectResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
 
             var returnedRecords = result.Value as List<Record>;
 
-            Assert.IsNotNull(returnedRecords);
+            Assert.That(returnedRecords, Is.Not.Null);
             Assert.That(returnedRecords.Count, Is.EqualTo(2));
         }
 
         [Test]
-        public void GetRecordById_ShouldReturnCorrectRecord()
+        public async Task GetRecordById_ShouldReturnCorrectRecord()
         {
             // Arrange
-            var testRecord = new Record
-            { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
+            var testRecord = new Record { RecordId = 1, Title = "Test Album 1", Artist = "Test Artist 1", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
 
-            _recordServiceMock.Setup(repo => repo.GetRecordById(1)).Returns(testRecord);
+            _recordServiceMock.Setup(repo => repo.GetRecordById(1)).ReturnsAsync(testRecord);
 
             // Act
-            var result = _recordController.GetRecordById(1) as OkObjectResult;
+            var result = await _recordController.GetRecordById(1) as OkObjectResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             var returnedRecord = result.Value as Record;
-            Assert.IsNotNull(returnedRecord);
+
+            Assert.That(returnedRecord, Is.Not.Null);
             Assert.That(returnedRecord.RecordId, Is.EqualTo(testRecord.RecordId));
         }
 
         [Test]
-        public void GetRecordById_ShouldReturnNotFoundForInvalidId()
+        public async Task GetRecordById_ShouldReturnNotFoundForInvalidId()
         {
             // Arrange
-            _recordServiceMock.Setup(repo => repo.GetRecordById(999)).Returns((Record)null);
+            _recordServiceMock.Setup(repo => repo.GetRecordById(999)).ReturnsAsync((Record)null);
             // Act
-            var result = _recordController.GetRecordById(999);
+            var result = await _recordController.GetRecordById(999);
             // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            Assert.That(result, Is.TypeOf<NotFoundResult>());
         }
 
         [Test]
-        public void AddRecord_ShouldReturnCreatedRecord()
+        public async Task GetRecordById_ShouldReturnBadRequest_ForNonPositiveId()
+        {
+            // Act
+            var result = await _recordController.GetRecordById(0);
+
+            // Assert
+            Assert.That((result as BadRequestObjectResult).Value, Is.EqualTo("Invalid record ID"));
+        }
+
+
+        [Test]
+        public async Task AddRecord_ShouldReturnCreatedRecord()
         {
             // Arrange
             var newRecord = new Record { RecordId = 3, Title = "Test Album 3", Artist = "Test Artist 3", Genre = "Jazz", Year = 2010, Price = 20, Stock = 2 };
-            _recordServiceMock.Setup(repo => repo.AddRecord(newRecord)).Returns(newRecord);
+            _recordServiceMock.Setup(repo => repo.AddRecord(newRecord)).ReturnsAsync(newRecord);
             // Act
-            var result = _recordController.AddRecord(newRecord) as CreatedAtActionResult;
+            var result = await _recordController.AddRecord(newRecord) as CreatedAtActionResult;
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
+
             var createdRecord = result.Value as Record;
-            Assert.IsNotNull(createdRecord);
+
+            Assert.That(createdRecord, Is.Not.Null);
             Assert.That(createdRecord.RecordId, Is.EqualTo(3));
         }
 
         [Test]
-        public void AddRecord_ShouldReturnBadRequestForNullRecord()
+        public async Task AddRecord_ShouldReturnBadRequestForNullRecord()
         {
             // Act
-            var result = _recordController.AddRecord(null);
+            var result = await _recordController.AddRecord(null);
             // Assert
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+            Assert.That((result as BadRequestObjectResult).Value, Is.EqualTo("Record cannot be null"));
         }
 
         [Test]
-        public void EditRecord_ShouldReturnEditedRecord()
+        public async Task EditRecord_ShouldReturnEditedRecord()
         {
             // Arrange
             var id = 1;
 
             var updatedRecord = new Record
-            {
-                Title = "Updated Album",
-                Artist = "Updated Artist",
-                Genre = "Rock",
-                Year = 2000,
-                Price = 10,
-                Stock = 5
-            };
+            { Title = "Updated Album", Artist = "Updated Artist", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
 
             var returnedRecord = new Record
-            {
-                RecordId = id,
-                Title = "Updated Album",
-                Artist = "Updated Artist",
-                Genre = "Rock",
-                Year = 2000,
-                Price = 10,
-                Stock = 5
-            };
+            { RecordId = id, Title = "Updated Album", Artist = "Updated Artist", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
 
-            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).Returns(returnedRecord);
+            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).ReturnsAsync(returnedRecord);
 
             // Act
-            var result = _recordController.EditRecord(id, updatedRecord) as OkObjectResult;
+            var result = await _recordController.EditRecord(id, updatedRecord) as OkObjectResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
 
             var editedRecord = result.Value as Record;
-            Assert.IsNotNull(editedRecord);
+            Assert.That(editedRecord, Is.Not.Null);
 
             Assert.That(editedRecord.Title, Is.EqualTo("Updated Album"));
             Assert.That(editedRecord.RecordId, Is.EqualTo(id));
         }
 
         [Test]
-        public void EditRecord_ShouldReturnNotFoundForInvalidId()
+        public async Task EditRecord_ShouldReturnNotFoundForInvalidId()
         {
             // Arrange
             var id = 999;
             var updatedRecord = new Record
-            {
-                Title = "Updated Album",
-                Artist = "Updated Artist",
-                Genre = "Rock",
-                Year = 2000,
-                Price = 10,
-                Stock = 5
-            };
-            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).Returns((Record)null);
+            { Title = "Updated Album", Artist = "Updated Artist", Genre = "Rock", Year = 2000, Price = 10, Stock = 5 };
+            _recordServiceMock.Setup(service => service.EditRecord(id, updatedRecord)).ReturnsAsync((Record)null);
+            
             // Act
-            var result = _recordController.EditRecord(id, updatedRecord);
+            var result = await _recordController.EditRecord(id, updatedRecord);
+            
             // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            Assert.That(result, Is.TypeOf<NotFoundResult>());
         }
+
         [Test]
-        public void DeleteRecord_ShouldReturnOkForSuccessfulDeletion()
+        public async Task DeleteRecord_ShouldReturnOkForSuccessfulDeletion()
         {
             // Arrange
             var id = 1;
-            _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(true);
+            _recordServiceMock.Setup(service => service.DeleteRecord(id)).ReturnsAsync(true);
             // Act
-            var result = _recordController.DeleteRecord(id) as NoContentResult;
+            var result = await _recordController.DeleteRecord(id) as NoContentResult;
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
         [Test]
-        public void DeleteRecord_ShouldReturnNotFound_WhenRecordDoesNotExist()
+        public async Task DeleteRecord_ShouldReturnNotFound_WhenRecordDoesNotExist()
         {
             // Arrange
             var id = 1;
-            _recordServiceMock.Setup(service => service.DeleteRecord(id)).Returns(false);
+            _recordServiceMock.Setup(service => service.DeleteRecord(id)).ReturnsAsync(false);
 
             // Act
-            var result = _recordController.DeleteRecord(id) as NotFoundResult;
+            var result = await _recordController.DeleteRecord(id) as NotFoundResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
     }
 

@@ -28,7 +28,7 @@ namespace RecordShopProject.Controller
                 return BadRequest("Invalid record ID");
             }
 
-            var recordId = _recordService.GetRecordById(id);
+            var recordId = await _recordService.GetRecordById(id);
 
             if (recordId == null)
             {
