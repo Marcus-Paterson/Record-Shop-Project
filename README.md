@@ -52,41 +52,41 @@ The Record Shop API allows clients to:
 
 # 🏗️ Architecture
 The project uses a clean, decoupled structure:
-* Controllers
+Controllers
  - Handle HTTP requests
  - Return DTOs and status codes
  - No business logic
 
-* Services
+Services
  - Contain business rules
  - Validate inputs
  - Coordinate repository operations
 
-* Repositories
+Repositories
  - Abstract EF Core
  - Handle database queries
  - Return domain models
 
-* EF Core
+EF Core
  - Handles migrations
  - Maps models to database tables
 
 # 🧪 Testing
 The backend includes automated test coverage across core layers.
 
-* Repository Tests
+Repository Tests
 - Use in‑memory SQLite
 - Validate CRUD operations
 
-* Service Tests
+Service Tests
 - Mock repositories with Moq
 - Validate business logic
 
-* Controller Tests
+Controller Tests
 - Use mocked services
 - Validate routing + status codes
 
-* Testing Tools
+Testing Tools
 - NUnit — test framework
 - Moq — mocking dependencies
 - Shouldly — readable assertions
